@@ -1,24 +1,47 @@
 public class Main {
     public static void main(String[] args) {
-        Fish clownfish = new Fish("Clownfish");
-        clownfish.showSpeciesInfo();
-        clownfish.pumpHeart();
+        Food shrimp = new Food("Shrimp");
+        Food flakes = new Food("Fish Flakes");
 
-        Fish goldfish = new Fish("Goldfish");
-        goldfish.showSpeciesInfo();
-        goldfish.pumpHeart();
+        Fish[] fishes = {
+                new Shark("White Shark"),
+                new Goldfish("Goldie"),
+                new Clownfish("Nemo"),
+                new Piranha("Red Piranha")
+        };
 
-        Aquarium aquarium = new Aquarium();
-        aquarium.addFish(clownfish);
-        aquarium.addFish(goldfish);
+        fishes[0].setFood(shrimp);
+        fishes[1].setFood(flakes);
+        fishes[2].setFood(shrimp);
+        fishes[3].setFood(flakes);
 
-        aquarium.showAllFish();
+        Pond pond = new Pond();
+        pond.observeFish(fishes[1]);
 
-        MarineBiologist biologist = new MarineBiologist("Dr. Reef");
-        biologist.observe(clownfish);
-        biologist.observe(goldfish);
+        for (Fish fish : fishes) {
+            fish.info();
+            fish.swim();
+            fish.gills.function();
+        }
 
-        clownfish.clean();
-        goldfish.clean();
+        System.out.println("\n== Interactions ==");
+        for (int i = 0; i < fishes.length; i++) {
+            for (int j = 0; j < fishes.length; j++) {
+                fishes[i].interactWithOtherFish(fishes[j]);
+            }
+        }
+
+        AquariumUtils.WaterAnalyzer.analyze();
+        simulate(fishes[0]);
+    }
+
+    static void simulate(Fish fish) {
+        class Interaction {
+            void feed() {
+                System.out.println("Feeding " + fish.name + " with " + fish.food.type);
+            }
+        }
+        Interaction interaction = new Interaction();
+        interaction.feed();
     }
 }

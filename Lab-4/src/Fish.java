@@ -1,43 +1,48 @@
-public class Fish {
-    private final String name;
-    private final Heart heart;
+public abstract class Fish implements Swimmable {
+    public String name;
+    public FishType type;
+    public boolean isPredator;
+    public Organ gills;
+    public Food food;
 
-    public Fish(String name) {
+    public Fish(String name, FishType type, boolean isPredator) {
         this.name = name;
-        this.heart = new Heart();
+        this.type = type;
+        this.isPredator = isPredator;
+        this.gills = new Organ("Gills");
     }
 
-    class Heart {
-        void beat() {
-            System.out.println(name + "'s heart is beating.");
+    public void setFood(Food food) {
+        this.food = food;
+    }
+
+    public void info() {
+        System.out.println("\n=== " + name + " ===");
+        System.out.println("Type: " + type);
+        System.out.println("Predator: " + (isPredator ? "Yes" : "No"));
+        System.out.println("Food: " + (food != null ? food.type : "none"));
+    }
+
+    public void interactWithOtherFish(Fish other) {
+        if (this == other) return;
+        System.out.print(name + " meets " + other.name + " → ");
+        if (this.isPredator && !other.isPredator) {
+            System.out.println("might attack!");
+        } else {
+            System.out.println("swim peacefully.");
         }
     }
 
-    public static class SpeciesInfo {
-        public static void display(String species) {
-            System.out.println("Species Info: " + species + " is a tropical fish.");
+    // Inner class
+    public class Organ {
+        String type;
+
+        public Organ(String type) {
+            this.type = type;
         }
-    }
 
-    public void showSpeciesInfo() {
-        SpeciesInfo.display(name);
-    }
-
-    public void pumpHeart() {
-        heart.beat();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void clean() {
-        class Cleaner {
-            void cleanFish() {
-                System.out.println("Cleaning " + name);
-            }
+        public void function() {
+            System.out.println(name + " uses " + type);
         }
-        Cleaner cleaner = new Cleaner();
-        cleaner.cleanFish();
     }
 }
